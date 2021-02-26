@@ -1,0 +1,11 @@
+@import "tailwindcss/tailwind";
+@import "./animations.css";
+
+* {
+  touch-action: manipulation;
+}
+
+body {
+  background-image: url("./assets/pattern.svg");
+  background-repeat: repeat;
+}
