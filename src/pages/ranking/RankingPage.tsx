@@ -1,15 +1,10 @@
 import NameDialog from "./components/NameDialog";
 import Page from "../../components/Page";
+import Ranking from "../../server/models/Ranking";
 import RankingList from "./components/RankingList";
 import React from "react";
 import getTopRankings from "../../server/getTopRankings";
 import uploadRanking from "../../server/uploadRanking";
-
-interface Ranking {
-  rank: number;
-  user: string;
-  score: string;
-}
 
 export default function RankingPage({
   score,

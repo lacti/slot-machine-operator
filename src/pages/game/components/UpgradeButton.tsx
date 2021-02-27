@@ -5,6 +5,7 @@ import React from "react";
 import calculatePrice from "../utils/calculatePrice";
 import formatMoney from "../utils/formatMoney";
 import { observer } from "mobx-react-lite";
+import text from "../../../data/text";
 
 function UpgradeButton({
   state,
@@ -32,12 +33,18 @@ function UpgradeButton({
       <div className="flex flex-col">
         <span>{label}</span>
         {level < maxLevel ? (
-          <span>비용: {formatMoney(calculatePrice(levelKey, state))}</span>
+          <span>
+            {text.upgradeButton_costPrefix}
+            {formatMoney(calculatePrice(levelKey, state))}
+          </span>
         ) : (
-          <span>MAX</span>
+          <span>{text.upgradeButton_maxLevel}</span>
         )}
       </div>
-      <span>Lvl {state[levelKey]}</span>
+      <span>
+        {text.upgradeButton_levelPrefix}
+        {state[levelKey]}
+      </span>
     </div>
   );
 }

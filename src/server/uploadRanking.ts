@@ -1,3 +1,4 @@
+import text from "../data/text";
 export default async function uploadRanking(
   name: string,
   score: string
@@ -11,6 +12,6 @@ export default async function uploadRanking(
   );
   if (!response.ok) {
     console.error(response);
-    alert("랭킹 서버가 죽었습니다..!");
+    alert(text.error_rankingServerIsGone);
   }
 }

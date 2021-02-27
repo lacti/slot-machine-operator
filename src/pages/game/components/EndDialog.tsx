@@ -1,7 +1,9 @@
 import Button from "../../../components/Button";
 import Center from "../../../components/Center";
 import Dialog from "../../../components/Dialog";
+import Multiline from "../../../components/Multiline";
 import React from "react";
+import text from "../../../data/text";
 
 export default function EndDialog({
   onEndClick,
@@ -12,17 +14,22 @@ export default function EndDialog({
 }) {
   return (
     <Center overlay onOverlayClick={doClose}>
-      <Dialog title="할만큼 했습니다!" onCloseClick={doClose} bodyHeight="auto">
+      <Dialog
+        title={text.endDialog_title}
+        onCloseClick={doClose}
+        bodyHeight="auto"
+      >
         <div className="flex flex-col">
           <p className="text-base leading-loose text-center md:p-8 md:text-xl md:leading-loose">
-            현재 점수를 랭킹에 기록하고
-            <br />
-            게임을 종료할까요?
+            <Multiline messages={text.endDialog_messages} />
           </p>
           <div className="h-8"></div>
-          <Button label="네" onButtonClick={onEndClick} />
+          <Button
+            label={text.commonDialogButton_yes}
+            onButtonClick={onEndClick}
+          />
           <div className="h-6"></div>
-          <Button label="아니요" onButtonClick={doClose} />
+          <Button label={text.commonDialogButton_no} onButtonClick={doClose} />
           <div className="h-4"></div>
         </div>
       </Dialog>

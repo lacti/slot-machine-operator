@@ -1,9 +1,10 @@
 import Button from "../../../components/Button";
 import Center from "../../../components/Center";
 import GamblerJackpotIcon from "../../../assets/gambler_jackpot.svg";
-import { Ranking } from "../../../server/getTopRankings";
+import Ranking from "../../../server/models/Ranking";
 import React from "react";
 import formatMoney from "../../game/utils/formatMoney";
+import text from "../../../data/text";
 
 export default function RankingList({
   rankings,
@@ -27,7 +28,7 @@ export default function RankingList({
           </div>
         ))}
         <div className="h-8"></div>
-        <Button label="다시하기" onButtonClick={onRestart} />
+        <Button label={text.restartGame} onButtonClick={onRestart} />
       </div>
     </Center>
   );

@@ -1,8 +1,5 @@
-export interface Ranking {
-  rank: number;
-  user: string;
-  score: string;
-}
+import Ranking from "./models/Ranking";
+import text from "../data/text";
 
 export default async function getTopRankings(name: string): Promise<Ranking[]> {
   const response = await fetch(
@@ -15,7 +12,7 @@ export default async function getTopRankings(name: string): Promise<Ranking[]> {
   );
   if (!response.ok) {
     console.error(response);
-    alert("랭킹 서버가 죽었습니다..!");
+    alert(text.error_rankingServerIsGone);
   }
   return await response.json();
 }

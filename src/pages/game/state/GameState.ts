@@ -1,6 +1,8 @@
-import EventType from "./EventType";
+import EventType from "../../../data/models/EventType";
 import calculatePrice from "../utils/calculatePrice";
-import { eventTypes } from "./EventType";
+import control from "../../../data/control";
+import { eventTypes } from "../../../data/models/EventType";
+import initial from "../../../data/initial";
 import { makeAutoObservable } from "mobx";
 
 export type GameLevelKey =
@@ -10,23 +12,23 @@ export type GameLevelKey =
   | "securityLevel";
 
 export const maxLevels: { [K in GameLevelKey]: number } = {
-  slotCount: 32,
-  gambleLevel: Number.MAX_VALUE,
-  airLevel: 20,
-  securityLevel: Number.MAX_VALUE,
+  slotCount: control.maxLevelOfSlotCount,
+  gambleLevel: control.maxLevelOfGambleLevel,
+  airLevel: control.maxLevelOfAirLevel,
+  securityLevel: control.maxLevelOfSecurityLevel,
 };
 
 export default class GameState {
-  slotCount = 1;
-  money = 1000n;
-  running = true;
-  earn = 10n;
-  speed = 1000;
-  gambleLevel = 1;
-  airLevel = 1;
-  securityLevel = 1;
-  pendingEvents: EventType[] = [];
+  money = initial.money;
+  earn = initial.earn;
+  speed = initial.speed;
+  slotCount = initial.slotCount;
+  gambleLevel = initial.gambleLevel;
+  airLevel = initial.airLevel;
+  securityLevel = initial.securityLevel;
 
+  running = true;
+  pendingEvents: EventType[] = [];
   earnTimer: number | null = null;
   eventTimer: number | null = null;
 
@@ -36,17 +38,21 @@ export default class GameState {
 
   reset(): void {
     console.log("reset");
-    this.slotCount = 1;
-    this.money = 1000n;
+    this.money = initial.money;
+    this.earn = initial.earn;
+    this.speed = initial.speed;
+    this.slotCount = initial.slotCount;
+    this.gambleLevel = initial.gambleLevel;
+    this.airLevel = initial.airLevel;
+    this.securityLevel = initial.securityLevel;
+
     this.running = true;
-    this.earn = 10n;
-    this.speed = 1000;
-    this.gambleLevel = 1;
-    this.airLevel = 1;
-    this.securityLevel = 1;
     this.pendingEvents = [];
     this.earnAndNext();
-    this.eventTimer = setTimeout(() => this.generateEvent(), 30 * 1000);
+    this.eventTimer = setTimeout(
+      () => this.generateEvent(),
+      control.firstEventDelayMillis
+    );
   }
 
   stop(): void {
@@ -87,13 +93,13 @@ export default class GameState {
 
   upgradeGambleLevel(): void {
     ++this.gambleLevel;
-    this.earn = this.earn * 4n;
+    this.earn = this.earn * control.earnMultiplyFactor;
     console.log("upgradeGambleLevel", this.gambleLevel, this.earn);
   }
 
   upgradeAirLevel(): void {
     ++this.airLevel;
-    this.speed = Math.max(100, this.speed * 0.8);
+    this.speed = Math.max(100, this.speed * control.speedMultiplyFactor);
     console.log("upgradeAirLevel", this.airLevel, this.speed);
   }
 
@@ -122,7 +128,7 @@ export default class GameState {
 
   addClickMoney(): void {
     const cpt = this.cpt();
-    const cpc = cpt / 2n;
+    const cpc = cpt / control.clickDivideFactor;
     this.money += cpc > 0n ? cpc : 1n;
   }
 
@@ -130,7 +136,7 @@ export default class GameState {
     if (!this.running) {
       return;
     }
-    if (this.pendingEvents.length < 10) {
+    if (this.pendingEvents.length < control.maxCountOfPendingEvents) {
       const baseline =
         (0.5 / (this.securityLevel + 1)) *
         (Math.log10((this.slotCount * this.gambleLevel) / this.securityLevel) +
@@ -155,7 +161,10 @@ export default class GameState {
         this.pendingEvents.push(type);
       }
     }
-    this.eventTimer = setTimeout(() => this.generateEvent(), 10 * 1000);
+    this.eventTimer = setTimeout(
+      () => this.generateEvent(),
+      control.nextEventDelayMillis
+    );
   }
 
   popEventCard(): void {

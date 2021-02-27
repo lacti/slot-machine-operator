@@ -8,6 +8,7 @@ import SlotMachineIcon from "../../../assets/slot-machine.svg";
 import TableFanIcon from "../../../assets/table-fan.svg";
 import UpgradeButton from "./UpgradeButton";
 import { observer } from "mobx-react-lite";
+import text from "../../../data/text";
 
 function UpgradeDialog({
   state,
@@ -18,30 +19,34 @@ function UpgradeDialog({
 }) {
   return (
     <Center overlay onOverlayClick={doClose}>
-      <Dialog title="업그레이드" onCloseClick={doClose} bodyHeight="auto">
+      <Dialog
+        title={text.upgradeDialog_title}
+        onCloseClick={doClose}
+        bodyHeight="auto"
+      >
         <div className="flex flex-col">
           <UpgradeButton
             state={state}
             icon={SlotMachineIcon}
-            label="추가 구매"
+            label={text.upgradeDialog_slotLabel}
             levelKey="slotCount"
           />
           <UpgradeButton
             state={state}
             icon={PayPerClickIcon}
-            label="효율 개선"
+            label={text.upgradeDialog_gambleLabel}
             levelKey="gambleLevel"
           />
           <UpgradeButton
             state={state}
             icon={TableFanIcon}
-            label="산소 주입"
+            label={text.upgradeDialog_airLabel}
             levelKey="airLevel"
           />
           <UpgradeButton
             state={state}
             icon={SecurityCameraIcon}
-            label="보안 강화"
+            label={text.upgradeDialog_securityLabel}
             levelKey="securityLevel"
             last
           />

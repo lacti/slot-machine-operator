@@ -1,15 +1,20 @@
 import React from "react";
 
-export default function Multiline({ messages }: { messages: string[] }) {
+export default function Multiline({
+  messages,
+}: {
+  messages: string | string[];
+}) {
+  const lines = typeof messages === "string" ? messages.split(/\n/g) : messages;
   return (
     <>
-      {messages.map((message, index) =>
+      {lines.map((line, index) =>
         index === 0 ? (
-          message
+          line
         ) : (
           <span key={`msg${index}`}>
             <br />
-            {message}
+            {line}
           </span>
         )
       )}
