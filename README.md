@@ -16,6 +16,8 @@ yarn dev
 - [React](https://reactjs.org/)
 - [Vite](https://vitejs.dev/)
 - [tailwindcss](https://tailwindcss.com/)
+- [Animista](https://animista.net/)
+- [flaticon](https://www.flaticon.com/)
 
 ## Screenshots
 
